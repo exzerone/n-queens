@@ -79,11 +79,31 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // console.log(rowIndex)
+      //iterate through a list within a list add each element together 
+      //if the sum is greater than 1 
+      //return true else retrun false
+      // console.log('this is rowIndex ' + rowIndex)
+      // console.log()
+      let result = 0; 
+      for (let element of this.get(rowIndex)){
+        result += element;
+      }
+      return result > 1 ? true : false
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
+      //iterate over the main array and if hasRowConflict is true at a specific index
+      //return true
+      //else false
+      // console.log('this is ' + this.hasRowConflictAt)
+      // console.log("n is ", this.get('n'))
+      for (let index = 0; index < this.get('n'); index++){
+        if (this.hasRowConflictAt(index)){
+          return true
+        }
+      }
       return false; // fixme
     },
 
@@ -94,11 +114,32 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+
+      // mainArray[i][colIndex]
+      /// 1. Declare a variable as a storing variable.
+      /// 2. Iterate through each row of the matrix and combine the first || second || third || fourth element of each array
+      /// 3. If the combined element is > 1 return true : false.
+
+
+      let result = 0;
+      for (let index = 0; index < this.get('n'); index++) {
+        var element = this.get(index)[colIndex]
+        result += element;
+      }
+      return result > 1 ? true:false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      //iterate over the main array and if hasColConflictAt is true at a specific column
+      //return true
+      //else false
+
+      for (let index = 0; index < this.get('n'); index++){
+        if(this.hasColConflictAt(index)){
+          return true
+        }
+      }
       return false; // fixme
     },
 
@@ -109,6 +150,21 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      // console.log(this.rows())
+      //first we need to find the first element with a value of 1 within an array
+      //whatever that index is, its actual position
+      //then we are going to subtract 1 from the row index and the column index
+      let result = 0;
+      let input = majorDiagonalColumnIndexAtFirstRow;
+      for (let index = 0; index < this.get('n'); index++){
+        let y = index;
+        let x = input + y;
+        result += this.get(index)[x];
+      }
+      if (result > 1){
+        return true;
+      }
+      
       return false; // fixme
     },
 
