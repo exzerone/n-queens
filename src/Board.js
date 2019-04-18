@@ -86,6 +86,7 @@
       // console.log('this is rowIndex ' + rowIndex)
       // console.log()
       let result = 0; 
+      // console.log('this is this.get(rowIndex) ', this.get(rowIndex))
       for (let element of this.get(rowIndex)){
         result += element;
       }
@@ -99,7 +100,8 @@
       //else false
       // console.log('this is ' + this.hasRowConflictAt)
       // console.log("n is ", this.get('n'))
-      for (let index = 0; index < this.get('n'); index++){
+      let n = this.get('n');
+      for (let index = 0; index < n; index++){
         if (this.hasRowConflictAt(index)){
           return true
         }
@@ -157,15 +159,13 @@
       //then we are going to subtract 1 from the row index and the column index
       let result = 0;
       let input = majorDiagonalColumnIndexAtFirstRow;
-      let ending = this.get('n')-Math.abs(input);
-       
-      for (let index = 0; index < ending; index++){
-        let y = index;
-        if (input < 0){
-          y = y - input;
-        } 
-        let x = input + y;
-        result += this.get(y)[x];
+      let n = this.get('n');
+      for (let i = 0; i < n; i++){
+        var x = i;
+        var y = x - input;
+        if (y < n && y >= 0){
+          result += this.get(x)[y]
+        }
       }
       if (result > 1){
         return true;
@@ -193,27 +193,20 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(input) {
-      let x, y, ending, result = 0;
-      // debugger;
-      if (input < this.get('n')){ 
-        x = input;
-        y = 0;
-        ending = x + 1;
-      } else {
-        x = this.get('n') - 1;
-        y = input - x;
-        ending = this.get('n') - y;
-      }
-      for (var index = 0; index < ending; index++){
-        // y += index;
-        // x -= index;
-        console.log(x)
-        result += this.get(y)[x];
-        // console.log('this is result', result)
+      let result = 0;
+      let n = this.get('n');
+
+      for (let i = 0; i < n; i++){
+        var x = i;
+        var y = input - x;
+        if (y < n && y >= 0){
+          result+= this.get(x)[y]
+        }
       }
       if (result > 1){
-        return true;
+        return true
       }
+
       return false; // fixme
     },
 
@@ -221,7 +214,9 @@
     hasAnyMinorDiagonalConflicts: function() {
       let ending = (this.get('n') * 2) - 2;
       for (let i = 0; i <= ending; i++){
-        if (this.hasMinorDiagonalConflictAt(i)) return true;
+        if (this.hasMinorDiagonalConflictAt(i)){
+          return true
+        }
       }
       return false; // fixme
     }
