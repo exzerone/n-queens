@@ -16,7 +16,30 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  //create a grid from given gridsize
+  //toggles first square with rook(value)
+  //iterate through the row elements
+    //if there is no column conflict
+      //toggle that value to that position
+      //break
+    //move to next row
+      //iterate through elements and make sure there's no column conflict
+      //toggle next rook when there's no column conflict
+  //push the grid to solution
+  // debugger;
+  var solution = []; //fixme
+  var newBoard = new Board({n:n})
+  // newBoard.togglePiece(0, 0)
+  for (let y = 0; y < n; y++){
+    for (let x = 0; x < n; x++){
+      newBoard.togglePiece(y, x)
+      if (newBoard.hasColConflictAt(x) || newBoard.hasRowConflictAt(y)){
+        newBoard.togglePiece(y, x);
+      }
+    }
+  }
+  
+  solution = newBoard.rows();
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
@@ -24,7 +47,42 @@ window.findNRooksSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  //create a new board
+  var newBoard = new Board ({n: n});
+  var solution = 0;
+  var results = [];
+  //iterate through all possible solutions:
+  for var (iteration = 0; iteration < idk; iteration++) {
+    //find where you want to place the first rook in the first row:
+    for var (row1 = 0; row1 < n; row1++) {
+
+    //find where you want to place the second rook in the second row:
+     
+    //find where you want to place the third rook in the third row:
+
+    //find where you want to place the fourth rook in the fourth row:
+  
+  //save the entire grid to the results array. 
+  //sum all the results and add the sum to solution
+  //return solution.
+
+
+  //cheat 
+  // var solutionCount = undefined; //fixme
+  // var handler = function(val){
+  //   if (val === 1){
+  //     return 1;
+  //   } else {
+  //     return val * handler(val -1)
+  //   }
+  // }
+  // if (n === 0){
+  //   solutionCount = 1;
+  // } else {
+  //   solutionCount = handler(n)
+  // }
+  
+
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
