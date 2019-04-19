@@ -26,7 +26,6 @@ window.findNRooksSolution = function(n) {
       //iterate through elements and make sure there's no column conflict
       //toggle next rook when there's no column conflict
   //push the grid to solution
-  // debugger;
   var solution = []; //fixme
   var newBoard = new Board({n:n})
   // newBoard.togglePiece(0, 0)
@@ -45,28 +44,28 @@ window.findNRooksSolution = function(n) {
   return solution;
 };
 
-window.findSolution = function(row, n, board, callback){
-  if (row === n){
-    return callback();
-  }
-  for (var i = 0; i < n; i++){
-    board.togglePiece(row, i);
-    if (!board.hasAnyRooksConflicts()){
-      this.findSolution(row + 1, n, board, callback);
-    }
-    board.togglePiece(row, i);
-  }
-}
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var newBoard = new Board ({n:n});
+  var newBoard = new Board({n:n});
   var solutionCount = 0;
-  findSolution(0, n, newBoard, function() {
-    solutionCount++;
-  });
+  var solutionFinder = function(row, board){
+    if (row === n){
+      solutionCount++
+      return; 
+    }
+    for (var col = 0; col < n; col++){
+      newBoard.togglePiece(row, col);
+      if (!newBoard.hasAnyRowConflicts() && !newBoard.hasAnyColConflicts()){
+        solution = solutionFinder(row+1, board)
+      }
+      newBoard.togglePiece(row, col);
+    }
+  }
+  solutionFinder(0, newBoard)
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
+};
   //cheat 
   // var solutionCount = undefined; //fixme
   // var handler = function(val){
@@ -81,17 +80,31 @@ window.countNRooksSolutions = function(n) {
   // } else {
   //   solutionCount = handler(n)
   // }
-  
 
-
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  return solutionCount;
-};
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
-
+  var board = new Board({n: n});
+  var solution;
+  if (n === 2 || n === 3){
+    return board.rows();
+  }
+  var solutionFinder = function(row, board) {
+    if (row === n) {
+      return board.rows();
+    }
+    for (var col = 0; col < n; col++) {
+      board.togglePiece(row, col);
+      if (!board.hasAnyQueensConflicts()) {
+        solution = solutionFinder(row + 1, board);
+        if (solution) {
+          return solution;
+        }
+      }
+      board.togglePiece(row, col);
+    }
+  };
+  solution = solutionFinder(0, board);
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
