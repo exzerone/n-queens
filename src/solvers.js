@@ -45,28 +45,28 @@ window.findNRooksSolution = function(n) {
   return solution;
 };
 
+window.findSolution = function(row, n, board, callback){
+  if (row === n){
+    return callback();
+  }
+  for (var i = 0; i < n; i++){
+    board.togglePiece(row, i);
+    if (!board.hasAnyRooksConflicts()){
+      this.findSolution(row + 1, n, board, callback);
+    }
+    board.togglePiece(row, i);
+  }
+}
+
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  //create a new board
-  var newBoard = new Board ({n: n});
-  var solution = 0;
-  var results = [];
-  //iterate through all possible solutions:
-  for var (iteration = 0; iteration < idk; iteration++) {
-    //find where you want to place the first rook in the first row:
-    for var (row1 = 0; row1 < n; row1++) {
-
-    //find where you want to place the second rook in the second row:
-     
-    //find where you want to place the third rook in the third row:
-
-    //find where you want to place the fourth rook in the fourth row:
-  
-  //save the entire grid to the results array. 
-  //sum all the results and add the sum to solution
-  //return solution.
-
-
+  var newBoard = new Board ({n:n});
+  var solutionCount = 0;
+  findSolution(0, n, newBoard, function() {
+    solutionCount++;
+  });
+  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
+  return solutionCount;
   //cheat 
   // var solutionCount = undefined; //fixme
   // var handler = function(val){
